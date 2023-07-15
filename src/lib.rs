@@ -1,15 +1,5 @@
-use axum::{http::StatusCode, routing::get, Router};
-use log::info;
+pub mod routes;
+pub mod startup;
 
-pub async fn run() {
-    let app = Router::new().route("/healthcheck", get(healthcheck));
-    axum::Server::bind(&"127.0.0.1:8000".parse().unwrap())
-        .serve(app.into_make_service())
-        .await
-        .unwrap();
-}
+pub use routes::health_check::*;
 
-async fn healthcheck() -> StatusCode {
-    info!("/healthcheck is alive");
-    StatusCode::OK
-}
