@@ -1,8 +1,4 @@
-use axum::{
-    routing::{get},
-    http::StatusCode, 
-    Router,
-};
+use axum::{http::StatusCode, routing::get, Router};
 use log::info;
 
 pub async fn run() {
