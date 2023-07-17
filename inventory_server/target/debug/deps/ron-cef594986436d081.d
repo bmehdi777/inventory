@@ -1,0 +1,16 @@
+/Users/bmehdi/Workspace/rust/inventory/target/debug/deps/ron-cef594986436d081.rmeta: /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/lib.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/mod.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/id.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/tag.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/value.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/ser/mod.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/ser/value.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/error.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/value.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/extensions.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/options.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/parse.rs
+
+/Users/bmehdi/Workspace/rust/inventory/target/debug/deps/ron-cef594986436d081.d: /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/lib.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/mod.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/id.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/tag.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/value.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/ser/mod.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/ser/value.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/error.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/value.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/extensions.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/options.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/parse.rs
+
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/lib.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/mod.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/id.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/tag.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/de/value.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/ser/mod.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/ser/value.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/error.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/value.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/extensions.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/options.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/ron-0.7.1/src/parse.rs:

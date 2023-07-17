@@ -1,0 +1,11 @@
+/Users/bmehdi/Workspace/rust/inventory/target/debug/deps/bitflags-f092b6698b3c941c.rmeta: /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs
+
+/Users/bmehdi/Workspace/rust/inventory/target/debug/deps/bitflags-f092b6698b3c941c.d: /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs /Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs
+
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs:
+/Users/bmehdi/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs:
