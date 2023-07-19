@@ -2,13 +2,19 @@ use crate::{configuration::Settings, health_check::health_check, product};
 use axum::{routing::get, Router};
 use mongodb::{Client, options::ClientOptions};
 
-
 pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     log::info!("Server is listening on http://127.0.0.1:8000");
-    let db_client: Client = connect_database(configuration).await?;
 
-    for db_name in db_client.database("test").list_collection_names(None).await? {
-        log::info!("{:?}", db_name);
+    let mut options = ClientOptions::parse(configuration.database.connection_string()).await?;
+    options.connect_timeout = Some(std::time::Duration::new(1, 0));
+    options.direct_connection = Some(true);
+
+    log::info!("options : {:?}", options);
+
+    let client = Client::with_options(options)?;
+
+    for db_name in client.list_database_names(None, None).await? {
+        log::info!("{}", db_name);
     }
 
     //let app = Router::new()
@@ -26,7 +32,3 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn connect_database(configuration: Settings) -> mongodb::error::Result<Client> {
-    let client_options = ClientOptions::parse(configuration.database.connection_string()).await?;
-    Client::with_options(client_options)
-}
