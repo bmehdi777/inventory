@@ -7,3 +7,6 @@ db.createUser({
 	pwd: process.env.MONGO_PASSWORD,
 	roles: [{ role: "readWrite", db: process.env.MONGO_INITDB_DATABASE }],
 });
+db.createCollection("users");
+db.createCollection("product");
+db.createCollection("home");

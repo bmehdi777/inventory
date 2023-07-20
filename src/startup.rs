@@ -11,10 +11,10 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
 
     log::info!("options : {:?}", options);
 
-    let client = Client::with_options(options)?;
+    let client = Client::with_options(options)?.database("inventory");
 
-    for db_name in client.list_database_names(None, None).await? {
-        log::info!("{}", db_name);
+    for collections in client.list_collection_names(None).await? {
+        log::info!("Collections available : {}", collections);
     }
 
     //let app = Router::new()
