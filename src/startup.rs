@@ -9,7 +9,7 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/healthcheck", get(health_check))
-        .route("/products", get(product::get_products))
+        .route("/products", get(product::get::get_products))
         .with_state(db_client.clone());
 
     axum::Server::bind(
