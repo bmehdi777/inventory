@@ -1,5 +1,5 @@
 use crate::{configuration::Settings, health_check::health_check, product, routes::user};
-use axum::{routing::get, Router};
+use axum::{routing::get, routing::post, Router};
 use mongodb::{options::ClientOptions, Client, Database};
 
 pub async fn run(configuration: Settings) -> anyhow::Result<()> {
@@ -11,6 +11,7 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         .route("/healthcheck", get(health_check))
         .route("/products", get(product::get::get_products))
         .route("/users", get(user::get::get_users))
+        .route("/user", post(user::post::insert_user))
         .with_state(db_client.clone());
 
     axum::Server::bind(

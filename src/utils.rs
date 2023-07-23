@@ -7,6 +7,7 @@ use serde_json::json;
 
 pub enum AppError {
     UnexpectedError(anyhow::Error),
+    DuplicatedRessource,
 }
 
 impl IntoResponse for AppError {
@@ -15,6 +16,10 @@ impl IntoResponse for AppError {
             AppError::UnexpectedError(e) => {
                 log::error!("{}", e);
                 (StatusCode::INTERNAL_SERVER_ERROR, "An error occured. Please try later.")
+            }
+            AppError::DuplicatedRessource => {
+                log::error!("duplicated ressource");
+                (StatusCode::CONFLICT, "Can't create a duplicated ressource.")
             }
         };
 
@@ -34,3 +39,4 @@ where
         AppError::UnexpectedError(err.into())
     }
 }
+
