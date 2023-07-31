@@ -10,8 +10,10 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     let app = Router::new()
         .route("/healthcheck", get(health_check))
         .route("/products", get(product::get::get_products))
-        .route("/users", get(user::get::get_users))
-        .route("/user", post(user::post::insert_user))
+        .route(
+            "/users",
+            get(user::get::get_users).post(user::post::insert_user),
+        )
         .with_state(db_client.clone());
 
     axum::Server::bind(
@@ -26,12 +28,15 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub async fn set_db(configuration: &Settings ) -> mongodb::error::Result<Database>  {
+pub async fn set_db(configuration: &Settings) -> mongodb::error::Result<Database> {
     let mut options = ClientOptions::parse(configuration.database.connection_string()).await?;
-    options.connect_timeout = Some(std::time::Duration::new(5,0));
+    options.connect_timeout = Some(std::time::Duration::new(5, 0));
     options.direct_connection = Some(true);
 
-    log::debug!("Connecting to database with the following options : {:?}", options);
+    log::debug!(
+        "Connecting to database with the following options : {:?}",
+        options
+    );
 
     Ok(Client::with_options(options)?.database("inventory"))
 }
