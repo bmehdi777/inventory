@@ -9,7 +9,7 @@ use crate::routes::user::User;
 pub enum AuthenticationError {
     #[error("Invalid credentials.")]
     InvalidCredentials,
-    #[error("Error while hashing.")]
+    #[error("Hashed password doesn't match.")]
     PasswordHashing(#[from] argon2::password_hash::Error),
 }
 
