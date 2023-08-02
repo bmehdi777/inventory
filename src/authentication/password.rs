@@ -33,8 +33,7 @@ pub async fn validate_credentials(
     {
         Some(user) => {
             verify_password_hash(credentials.password, user.password_hash)?;
-            let uuid = Uuid::parse_str(&user.uuid).expect("Failed parsing string to uuid.");
-            return Ok(uuid);
+            return Ok(Uuid::parse_str(&user.uuid).expect("Failed parsing string to uuid."));
         }
         None => return Err(AuthenticationError::InvalidCredentials),
     }

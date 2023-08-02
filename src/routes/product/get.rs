@@ -1,4 +1,5 @@
-use crate::product::{Product, PRODUCT_TABLENAME};
+use crate::product::Product;
+use crate::routes::PRODUCT_TABLENAME;
 use crate::startup::DatabaseRC;
 use crate::utils::AppError;
 use axum::{extract::State, response::Json};
