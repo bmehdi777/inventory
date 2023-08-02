@@ -2,7 +2,7 @@ use axum::{extract::State, http::StatusCode, Json};
 
 use crate::{
     authentication::password::{Credentials,create_hash_password, validate_credentials},
-    routes::user::{User, USER_TABLENAME},
+    routes::{user::User, USER_TABLENAME},
     utils::AppError, startup::DatabaseRC,
 };
 

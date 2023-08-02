@@ -1,13 +1,9 @@
 use serde::{Deserialize, Serialize};
 
-pub mod get;
-pub mod put;
-
+pub mod post;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct User {
-    pub uuid: String,
+pub struct UserPayload {
     pub username: String,
-    pub password_hash: String,
+    pub password: String,
 }
-

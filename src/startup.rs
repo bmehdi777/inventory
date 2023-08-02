@@ -1,4 +1,6 @@
-use crate::{configuration::Settings, health_check::health_check, product, routes::user};
+use crate::{
+    configuration::Settings, health_check::health_check, product, routes::login, routes::user,
+};
 use axum::{routing::get, routing::post, Router};
 use mongodb::{options::ClientOptions, Client, Database};
 use std::sync::Arc;
@@ -14,8 +16,8 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         .route("/healthcheck", get(health_check))
         .route("/products", get(product::get::get_products))
         .route("/users", get(user::get::get_users))
-        .route("/auth/register", post(user::post::register))
-        .route("/auth/login", post(user::post::login))
+        .route("/auth/register", post(login::post::register))
+        .route("/auth/login", post(login::post::login))
         .with_state(db_client.clone());
 
     axum::Server::bind(
