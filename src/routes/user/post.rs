@@ -1,16 +1,15 @@
 use axum::{extract::State, http::StatusCode, Json};
-use mongodb::Database;
 
 use crate::{
     authentication::password::{Credentials,create_hash_password, validate_credentials},
     routes::user::{User, USER_TABLENAME},
-    utils::AppError,
+    utils::AppError, startup::DatabaseRC,
 };
 
 use super::UserPayload;
 
 pub async fn register(
-    State(db_client): State<Database>,
+    State(db_client): State<DatabaseRC>,
     Json(payload): Json<UserPayload>,
 ) -> Result<StatusCode, AppError> {
     db_client
@@ -29,7 +28,7 @@ pub async fn register(
     Ok(StatusCode::CREATED)
 }
 
-pub async fn login(State(db_client): State<Database>, Json(payload): Json<UserPayload>) -> Result<StatusCode, AppError> {
+pub async fn login(State(db_client): State<DatabaseRC>, Json(payload): Json<UserPayload>) -> Result<StatusCode, AppError> {
     let creds: Credentials = Credentials {username: payload.username, password: payload.password};
     validate_credentials(creds, db_client).await?;
     Ok(StatusCode::OK)

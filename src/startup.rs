@@ -1,11 +1,14 @@
 use crate::{configuration::Settings, health_check::health_check, product, routes::user};
 use axum::{routing::get, routing::post, Router};
 use mongodb::{options::ClientOptions, Client, Database};
+use std::sync::Arc;
+
+pub type DatabaseRC = Arc<Database>;
 
 pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     log::info!("Server is listening on http://127.0.0.1:8000");
 
-    let db_client = set_db(&configuration).await?;
+    let db_client = DatabaseRC::new(set_db(&configuration).await?);
 
     let app = Router::new()
         .route("/healthcheck", get(health_check))
