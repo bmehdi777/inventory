@@ -54,13 +54,3 @@ impl IntoResponse for AppError {
         (status, body).into_response()
     }
 }
-
-//impl<E> From<E> for AppError
-//where
-//    E: Into<anyhow::Error>,
-//{
-//    fn from(err: E) -> AppError {
-//        AppError::UnexpectedError(err.into())
-//    }
-//}
-//
