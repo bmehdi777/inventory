@@ -29,7 +29,7 @@ pub async fn validate_credentials(
         .unwrap_or(None)
     {
         Some(user) => {
-            verify_password_hash(credentials.password, user.password_hash).await?;
+            verify_password_hash(credentials.password, user.password_hash)?;
             let uuid = Uuid::parse_str(&user.uuid).expect("Failed parsing string to uuid.");
             return Ok(uuid);
         }
@@ -37,7 +37,7 @@ pub async fn validate_credentials(
     }
 }
 
-pub async fn verify_password_hash(
+fn verify_password_hash(
     current_password: String,
     hashed_password: String,
 ) -> Result<(), AuthenticationError> {
