@@ -8,7 +8,7 @@ use std::sync::Arc;
 pub type DatabaseRC = Arc<Database>;
 
 pub async fn run(configuration: Settings) -> anyhow::Result<()> {
-    log::info!("Server is listening on http://127.0.0.1:8000");
+    tracing::info!("Server is listening on http://127.0.0.1:8000");
 
     let db_client = DatabaseRC::new(set_db(&configuration).await?);
 
@@ -37,7 +37,7 @@ pub async fn set_db(configuration: &Settings) -> mongodb::error::Result<Database
     options.connect_timeout = Some(std::time::Duration::new(5, 0));
     options.direct_connection = Some(true);
 
-    log::debug!(
+    tracing::debug!(
         "Connecting to database with the following options : {:?}",
         options
     );

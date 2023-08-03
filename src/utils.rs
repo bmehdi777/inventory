@@ -23,14 +23,14 @@ impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         let (status, error_message) = match self {
             AppError::UnexpectedError(e) => {
-                log::error!("{}", e);
+                tracing::error!("{}", e);
                 (
                     StatusCode::INTERNAL_SERVER_ERROR,
                     "An error occured. Please try later.",
                 )
             }
             AppError::DatabaseError(e) => {
-                log::error!("Database error : {}", e);
+                tracing::error!("Database error : {}", e);
                 (
                     StatusCode::INTERNAL_SERVER_ERROR,
                     "An error occured. Please try later.",
@@ -38,11 +38,11 @@ impl IntoResponse for AppError {
             }
 
             AppError::DuplicatedRessource => {
-                log::error!("Duplicated ressource");
+                tracing::error!("Duplicated ressource");
                 (StatusCode::CONFLICT, "Can't create a duplicated ressource.")
             }
             AppError::AuthenticationError(e) => {
-                log::error!("Authentication error : {}", e);
+                tracing::error!("Authentication error : {}", e);
                 (StatusCode::UNAUTHORIZED, "Invalid credentials.")
             }
         };

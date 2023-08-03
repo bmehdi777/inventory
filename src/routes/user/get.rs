@@ -7,7 +7,7 @@ use crate::{utils::AppError, routes::{user::User, USER_TABLENAME}, startup::Data
 pub async fn get_users(State(db_client): State<DatabaseRC>) -> Result<Json<Value>, AppError> {
     let users: Vec<User> = db_client.collection::<User>(USER_TABLENAME).find(None, None).await?.try_collect().await?;
 
-    log::debug!("{:?}", users);
+    tracing::debug!("{:?}", users);
 
     Ok(Json(json!(users)))
 }

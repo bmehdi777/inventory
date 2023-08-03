@@ -14,7 +14,7 @@ pub async fn get_products(State(db_client): State<DatabaseRC>) -> Result<Json<Va
         .try_collect()
         .await?;
 
-    log::debug!("{:?}", products);
+    tracing::debug!("{:?}", products);
 
     Ok(Json(json!(products)))
 }
