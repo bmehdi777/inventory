@@ -1,6 +1,6 @@
 use axum::http::StatusCode;
 
+#[tracing::instrument]
 pub async fn health_check() -> StatusCode {
-    log::info!("/healthcheck is alive");
     StatusCode::OK
 }
