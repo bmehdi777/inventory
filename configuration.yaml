@@ -5,3 +5,10 @@ database:
   username: "mongo"
   password: "password"
   database_name: "inventory"
+
+session_store:
+  host: "127.0.0.1"
+  port: 27017
+  username: "mongo"
+  password: "password"
+  database_name: "inventory"
