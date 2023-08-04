@@ -21,7 +21,7 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         .with_state(db_client.clone());
 
     axum::Server::bind(
-        &format!("127.0.0.1:{}", configuration.application_port)
+        &format!("{}:{}", configuration.application.host, configuration.application.port)
             .parse()
             .unwrap(),
     )
