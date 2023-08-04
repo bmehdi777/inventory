@@ -1,10 +1,9 @@
 use argon2::password_hash::SaltString;
 use argon2::{Algorithm, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier, Version};
-use mongodb::bson;
+use mongodb::{bson, Database};
 use uuid::Uuid;
 
 use crate::routes::user::User;
-use crate::startup::DatabaseRC;
 
 #[derive(thiserror::Error, Debug)]
 pub enum AuthenticationError {
@@ -23,7 +22,7 @@ pub struct Credentials {
 
 pub async fn validate_credentials(
     credentials: Credentials,
-    db_client: DatabaseRC,
+    db_client: &Database,
 ) -> Result<uuid::Uuid, AuthenticationError> {
     match db_client
         .collection::<User>("users")
