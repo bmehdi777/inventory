@@ -11,7 +11,7 @@ use crate::{
 
 use super::UserPayload;
 
-#[tracing::instrument(skip(app_state))]
+#[tracing::instrument]
 pub async fn register(
     State(app_state): State<AppStateRC>,
     Json(payload): Json<UserPayload>,
@@ -37,10 +37,10 @@ pub async fn register(
         .session_store
         .insert_user_id(user_id.clone())
         .await?;
-    Ok((create_cookie_session(user_id), StatusCode::CREATED))
+    Ok((create_session_cookie(user_id), StatusCode::CREATED))
 }
 
-#[axum::debug_handler]
+#[tracing::instrument]
 pub async fn login(
     State(app_state): State<AppStateRC>,
     Json(payload): Json<UserPayload>,
@@ -49,26 +49,21 @@ pub async fn login(
         username: payload.username,
         password: payload.password,
     };
+    tracing::info!("Validating credentials");
     let user_id = validate_credentials(creds, &app_state.database).await?;
 
-    tracing::info!(
-        "has user id {:?}",
-        app_state
-            .session_store
-            .has_user_id("1207".to_string())
-            .await
-    );
+    tracing::info!("Inserting user_id");
     app_state
         .session_store
         .insert_user_id(user_id.to_string())
         .await?;
-    Ok((create_cookie_session(user_id.to_string()), StatusCode::OK))
+    Ok((create_session_cookie(user_id.to_string()), StatusCode::OK))
 }
 
-fn create_cookie_session(uid: String) -> CookieJar {
+fn create_session_cookie(uid: String) -> CookieJar {
     CookieJar::new().add(
         Cookie::build("uid", format!("{}", uid))
-            .secure(true)
+            //.secure(true)
             .http_only(true)
             .finish(),
     )
