@@ -1,11 +1,21 @@
-use futures::TryStreamExt;
 use axum::{extract::State, Json};
-use serde_json::{Value, json};
+use futures::TryStreamExt;
+use serde_json::{json, Value};
 
-use crate::{utils::AppError, routes::{user::User, USER_TABLENAME}, startup::DatabaseRC};
+use crate::{
+    routes::{user::User, USER_TABLENAME},
+    startup::AppStateRC,
+    utils::AppError,
+};
 
-pub async fn get_users(State(db_client): State<DatabaseRC>) -> Result<Json<Value>, AppError> {
-    let users: Vec<User> = db_client.collection::<User>(USER_TABLENAME).find(None, None).await?.try_collect().await?;
+pub async fn get_users(State(app_state): State<AppStateRC>) -> Result<Json<Value>, AppError> {
+    let users: Vec<User> = app_state
+        .database
+        .collection::<User>(USER_TABLENAME)
+        .find(None, None)
+        .await?
+        .try_collect()
+        .await?;
 
     tracing::debug!("{:?}", users);
 

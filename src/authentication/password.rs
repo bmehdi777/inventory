@@ -1,15 +1,16 @@
 use argon2::password_hash::SaltString;
 use argon2::{Algorithm, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier, Version};
-use mongodb::bson;
+use mongodb::{bson, Database};
 use uuid::Uuid;
 
 use crate::routes::user::User;
-use crate::startup::DatabaseRC;
 
 #[derive(thiserror::Error, Debug)]
 pub enum AuthenticationError {
     #[error("Invalid credentials.")]
     InvalidCredentials,
+    #[error("Invalid cookie.")]
+    InvalidCookie,
     #[error("Hashed password doesn't match.")]
     PasswordHashing(#[from] argon2::password_hash::Error),
     #[error("Thread error.")]
@@ -23,7 +24,7 @@ pub struct Credentials {
 
 pub async fn validate_credentials(
     credentials: Credentials,
-    db_client: DatabaseRC,
+    db_client: &Database,
 ) -> Result<uuid::Uuid, AuthenticationError> {
     match db_client
         .collection::<User>("users")
