@@ -9,7 +9,7 @@ DB_PASSWORD=${MONGO_PASSWORD:=password}
 DB_NAME=${MONGO_INITDB_DATABASE:=inventory}
 
 docker run -p 127.0.0.1:27017:27017 -d --name inventory_db \
-	-v ./scripts/init_mongo.js:/docker-entrypoint-initdb.d/init_mongo.js:ro \
+	-v "$(pwd)"/scripts/init_mongo.js:/docker-entrypoint-initdb.d/init_mongo.js:ro \
 	-e MONGO_INITDB_ROOT_USERNAME=${DB_ROOT_USER} \
 	-e MONGO_INITDB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} \
 	-e MONGO_INITDB_DATABASE=${DB_NAME} \
