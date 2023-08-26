@@ -11,3 +11,8 @@ pub struct User {
     pub password_hash: String,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct UserModify {
+    pub uuid: String,
+    pub new_username: String,
+}

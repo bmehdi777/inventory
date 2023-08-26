@@ -12,6 +12,7 @@ pub struct AppState {
     pub session_store: SessionStore,
 }
 impl AppState {
+    #[tracing::instrument]
     pub async fn new(configuration: &Settings) -> anyhow::Result<Self> {
         Ok(AppState {
             database: Self::connect_db(&configuration).await?,
@@ -25,7 +26,7 @@ impl AppState {
         options.direct_connection = Some(true);
 
         tracing::info!(
-            "Connecting to database with the following options : {:?}",
+            "Setting up connection information to database with the following options : {:?}",
             options
         );
 
@@ -41,7 +42,7 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
 
     let auth_route = Router::new()
         .route("/products", get(product::get::get_products))
-        .route("/users", get(user::get::get_users))
+        .route("/users", get(user::get::get_users).put(user::put::modify_user))
         .layer(middleware::from_fn_with_state(
             app_state.clone(),
             authorize::block_without_valid_cookie,

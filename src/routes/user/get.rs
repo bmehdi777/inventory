@@ -8,6 +8,7 @@ use crate::{
     utils::AppError,
 };
 
+#[tracing::instrument]
 pub async fn get_users(State(app_state): State<AppStateRC>) -> Result<Json<Value>, AppError> {
     let users: Vec<User> = app_state
         .database
