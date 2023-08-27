@@ -13,15 +13,7 @@ pub struct Product {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct ImageData {
-    pub blob: Vec<u8>,
-    pub width: u32,
-    pub height: u32,
+pub struct ProductImage {
+    pub base64_blob: String,
+    pub quantity: u32
 }
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct ProductRequest {
-    pub image_data: Option<ImageData>,
-    pub product_data: Option<Product>,
-}
-

@@ -10,6 +10,7 @@ use std::sync::Arc;
 pub struct AppState {
     pub database: Database,
     pub session_store: SessionStore,
+    pub reqwest_client: reqwest::Client,
 }
 impl AppState {
     #[tracing::instrument]
@@ -17,6 +18,7 @@ impl AppState {
         Ok(AppState {
             database: Self::connect_db(&configuration).await?,
             session_store: SessionStore::new(configuration.redis_uri.clone()).await?,
+            reqwest_client: reqwest::Client::new(),
         })
     }
     #[tracing::instrument]
@@ -42,6 +44,8 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
 
     let auth_route = Router::new()
         .route("/products", get(product::get::get_products))
+        .route("/products/byimage", post(product::post::register_product_by_image))
+        .route("/products/byinformation", post(product::post::register_product_by_information))
         .route("/users", get(user::get::get_users).put(user::put::modify_user))
         .layer(middleware::from_fn_with_state(
             app_state.clone(),

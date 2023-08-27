@@ -24,6 +24,12 @@ pub enum AppError {
     #[error("Can't create a duplicated ressource.")]
     DuplicatedRessource,
 
+    #[error("Unable to parse base64.")]
+    Base64Error(#[from] base64::DecodeError),
+
+    #[error("Unable to reqwest.")]
+    ReqwestError(#[from] reqwest::Error),
+
     #[error("Can't lock ressource.")]
     LockError,
 }
@@ -45,6 +51,13 @@ impl IntoResponse for AppError {
                     "An error occured. Please try later.",
                 )
             }
+            AppError::ReqwestError(e) => {
+                tracing::error!("Reqwest error : {}", e);
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    "An error occured while contacting OpenFoodFact. Please try later.",
+                )
+            }
             AppError::RedisError(e) => {
                 tracing::error!("Redis error: {}", e);
                 (
@@ -52,13 +65,23 @@ impl IntoResponse for AppError {
                     "An error occured. Please try later.",
                 )
             }
+            AppError::Base64Error(e) => {
+                tracing::error!("Base64 error : {}.", e);
+                (
+                    StatusCode::UNPROCESSABLE_ENTITY,
+                    "An error occured while decoding base64 data. Maybe the base64 payload is wrong."
+                    )
+            }
             AppError::DuplicatedRessource => {
                 tracing::error!("Duplicated ressource");
                 (StatusCode::CONFLICT, "Can't create a duplicated ressource.")
             }
             AppError::LockError => {
                 tracing::error!("Unable to lock ressource");
-                (StatusCode::INTERNAL_SERVER_ERROR, "An error occured. Please try later.")
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    "An error occured. Please try later.",
+                )
             }
             AppError::AuthenticationError(e) => {
                 tracing::error!("Authentication error : {}", e);
