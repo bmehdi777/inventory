@@ -30,6 +30,9 @@ pub enum AppError {
     #[error("Unable to reqwest.")]
     ReqwestError(#[from] reqwest::Error),
 
+    #[error("Image error.")]
+    ImageError(#[from] image::ImageError),
+
     #[error("Can't lock ressource.")]
     LockError,
 }
@@ -42,6 +45,13 @@ impl IntoResponse for AppError {
                 (
                     StatusCode::INTERNAL_SERVER_ERROR,
                     "An error occured. Please try later.",
+                )
+            }
+            AppError::ImageError(e) => {
+                tracing::error!("Image error : {}", e);
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    "An error occured with the image sent. Please try later.",
                 )
             }
             AppError::DatabaseError(e) => {
