@@ -32,6 +32,9 @@ pub enum AppError {
 
     #[error("Image error.")]
     ImageError(#[from] image::ImageError),
+    
+    #[error("Codebar error")]
+    CodebarError(#[from] rxing::Exceptions),
 
     #[error("Can't lock ressource.")]
     LockError,
@@ -52,6 +55,13 @@ impl IntoResponse for AppError {
                 (
                     StatusCode::INTERNAL_SERVER_ERROR,
                     "An error occured with the image sent. Please try later.",
+                )
+            }
+            AppError::CodebarError (e) => {
+                tracing::error!("Codebar error : {}", e);
+                (
+                    StatusCode::NO_CONTENT,
+                    "No codebar found.",
                 )
             }
             AppError::DatabaseError(e) => {

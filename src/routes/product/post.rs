@@ -17,7 +17,7 @@ pub async fn register_product_by_image(
     Json(payload): Json<ProductImage>,
 ) -> Result<StatusCode, AppError> {
     let blob = general_purpose::STANDARD.decode(payload.base64_blob)?;
-    let img = image::load_from_memory(&blob).unwrap();
+    let img = image::load_from_memory(&blob).expect("Error while loading image from blob.");
 
     let data = detect_in_luma_with_hints(
         img.to_luma8().to_vec(),
@@ -25,23 +25,15 @@ pub async fn register_product_by_image(
         img.height(),
         None,
         &mut HashMap::new(),
-    );
+    )?
+    .getText()
+    .to_string();
+    tracing::info!("Barcode found : {}", data);
 
-    match data {
-        Ok(o) => {
-            tracing::info!("Codebar retrieved : {}", o);
-            let url = format!("{}{}.json", API_BARCODE, o);
-            //let product_info: Product = app_state
-            //    .reqwest_client
-            //    .get(url)
-            //    .send()
-            //    .await?
-            //    .json()
-            //    .await?;
-            //tracing::info!("Product Info : {:?}", product_info);
-        }
-        Err(e) => tracing::error!("Error encountered while detecting codebar in image : {}", e),
-    }
+    let url = format!("{}{}.json", API_BARCODE, data);
+    tracing::info!("Contacting : {}", url);
+    let product_info = reqwest::get(url).await?.json::<Product>().await?;
+    tracing::info!("Product Info : {:?}", product_info);
     return Ok(StatusCode::OK);
 }
 

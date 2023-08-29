@@ -8,7 +8,8 @@ pub mod put;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Product {
     pub name: String,
-    pub quantity: u64,
+    pub image: Option<String>,
+    pub quantity: Option<u64>,
     pub code_barre: Option<String>,
 }
 

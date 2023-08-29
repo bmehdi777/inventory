@@ -10,7 +10,6 @@ use std::sync::Arc;
 pub struct AppState {
     pub database: Database,
     pub session_store: SessionStore,
-    pub reqwest_client: reqwest::Client,
 }
 impl AppState {
     #[tracing::instrument]
@@ -18,7 +17,6 @@ impl AppState {
         Ok(AppState {
             database: Self::connect_db(&configuration).await?,
             session_store: SessionStore::new(configuration.redis_uri.clone()).await?,
-            reqwest_client: reqwest::Client::new(),
         })
     }
     #[tracing::instrument]
