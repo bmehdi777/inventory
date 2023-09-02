@@ -42,8 +42,8 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
 
     let auth_route = Router::new()
         .route("/products", get(product::get::get_products))
-        .route("/products/byimage", post(product::post::register_product_by_image))
-        .route("/products/byinformation", post(product::post::register_product_by_information))
+        .route("/products/register", post(product::post::register_product))
+        .route("/products/search_image", post(product::post::search_product_by_image))
         .route("/users", get(user::get::get_users).put(user::put::modify_user))
         .layer(middleware::from_fn_with_state(
             app_state.clone(),

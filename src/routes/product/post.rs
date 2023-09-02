@@ -1,6 +1,6 @@
 use crate::{
     routes::{
-        product::{Product, ProductImage},
+        product::{OpenFoodFactProduct, Product, ProductImage},
         API_BARCODE, PRODUCT_TABLENAME,
     },
     startup::AppStateRC,
@@ -11,11 +11,10 @@ use base64::{engine::general_purpose, Engine as _};
 use rxing::helpers::detect_in_luma_with_hints;
 use std::collections::HashMap;
 
-#[axum::debug_handler]
-pub async fn register_product_by_image(
+pub async fn search_product_by_image(
     State(app_state): State<AppStateRC>,
     Json(payload): Json<ProductImage>,
-) -> Result<StatusCode, AppError> {
+) -> Result<Json<OpenFoodFactProduct>, AppError> {
     let blob = general_purpose::STANDARD.decode(payload.base64_blob)?;
     let img = image::load_from_memory(&blob).expect("Error while loading image from blob.");
 
@@ -32,13 +31,18 @@ pub async fn register_product_by_image(
 
     let url = format!("{}{}.json", API_BARCODE, data);
     tracing::info!("Contacting : {}", url);
-    let product_info = reqwest::get(url).await?.json::<Product>().await?;
+
+    let product_info = reqwest::get(url)
+        .await?
+        .json::<OpenFoodFactProduct>()
+        .await?;
     tracing::info!("Product Info : {:?}", product_info);
-    return Ok(StatusCode::OK);
+
+    Ok(Json(product_info))
 }
 
 #[tracing::instrument]
-pub async fn register_product_by_information(
+pub async fn register_product (
     State(app_state): State<AppStateRC>,
     Json(payload): Json<Product>,
 ) -> Result<StatusCode, AppError> {
