@@ -21,6 +21,6 @@ pub async fn get_products(State(app_state): State<AppStateRC>) -> Result<Json<Va
     Ok(Json(json!(products)))
 }
 
-pub async fn get_product(State(app_state): State<AppStateRC>) -> Result<Json<Value>, AppError> {
+pub async fn get_product(State(_app_state): State<AppStateRC>) -> Result<Json<Value>, AppError> {
     unimplemented!()
 }

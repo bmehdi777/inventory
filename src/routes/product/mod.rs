@@ -9,13 +9,7 @@ pub struct Product {
     pub name: String,
     pub image: Option<String>,
     pub quantity: Option<u64>,
-    pub code_barre: Option<String>,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct ProductImage {
-    pub base64_blob: String,
-    pub quantity: u32,
+    pub barcode: Option<String>,
 }
 
 impl From<OpenFoodFactProduct> for Product {
@@ -24,7 +18,7 @@ impl From<OpenFoodFactProduct> for Product {
             name: product.product.name,
             image: Some(product.product.image),
             quantity: None,
-            code_barre: Some(product.id),
+            barcode: Some(product.id),
         }
     }
 }
@@ -44,3 +38,4 @@ pub struct OpenFoodFactProductDetail {
     #[serde(alias = "image_url")]
     pub image: String,
 }
+

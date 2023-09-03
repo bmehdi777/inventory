@@ -1,6 +1,6 @@
 use crate::{
     configuration::Settings, health_check::health_check, middleware::authorize, product,
-    routes::login, routes::user, session::SessionStore,
+    routes::login, routes::user, routes::search, session::SessionStore,
 };
 use axum::{middleware, routing::get, routing::post, Router};
 use mongodb::{options::ClientOptions, Client, Database};
@@ -43,7 +43,8 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     let auth_route = Router::new()
         .route("/products", get(product::get::get_products))
         .route("/products/register", post(product::post::register_product))
-        .route("/products/search_image", post(product::post::search_product_by_image))
+        .route("/search/image", post(search::post::search_product_by_image))
+        .route("/search/barcode", post(search::post::search_product_by_barcode))
         .route("/users", get(user::get::get_users).put(user::put::modify_user))
         .layer(middleware::from_fn_with_state(
             app_state.clone(),
