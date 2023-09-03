@@ -74,7 +74,7 @@ impl IntoResponse for AppError {
             AppError::ReqwestError(e) => {
                 tracing::error!("Reqwest error : {}", e);
                 (
-                    StatusCode::INTERNAL_SERVER_ERROR,
+                    StatusCode::NO_CONTENT,
                     "An error occured while contacting OpenFoodFact. Please try later.",
                 )
             }
