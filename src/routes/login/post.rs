@@ -66,7 +66,7 @@ fn create_session_cookie(uid: String) -> CookieJar {
     CookieJar::new().add(
         Cookie::build("uid", format!("{}", uid))
             //.secure(true)
-            .http_only(true)
+            //.http_only(true)
             .finish(),
     )
 }
