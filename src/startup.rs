@@ -1,6 +1,6 @@
 use crate::{
     configuration::Settings, health_check::health_check, middleware::authorize, product,
-    routes::login, routes::user, routes::search, session::SessionStore,
+    routes::login, routes::search, routes::user, session::SessionStore,
 };
 use axum::{middleware, routing::get, routing::post, Router};
 use mongodb::{options::ClientOptions, Client, Database};
@@ -36,7 +36,11 @@ impl AppState {
 pub type AppStateRC = Arc<AppState>;
 
 pub async fn run(configuration: Settings) -> anyhow::Result<()> {
-    tracing::info!("Server is listening on http://127.0.0.1:8000");
+    tracing::info!(
+        "Server is listening on http://{}:{}",
+        &configuration.application.host,
+        &configuration.application.port
+    );
 
     let app_state = AppStateRC::new(AppState::new(&configuration).await?);
 
@@ -44,8 +48,14 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         .route("/products", get(product::get::get_products))
         .route("/products/register", post(product::post::register_product))
         .route("/search/image", post(search::post::search_product_by_image))
-        .route("/search/barcode", post(search::post::search_product_by_barcode))
-        .route("/users", get(user::get::get_users).put(user::put::modify_user))
+        .route(
+            "/search/barcode",
+            post(search::post::search_product_by_barcode),
+        )
+        .route(
+            "/users",
+            get(user::get::get_users).put(user::put::modify_user),
+        )
         .layer(middleware::from_fn_with_state(
             app_state.clone(),
             authorize::block_without_valid_cookie,

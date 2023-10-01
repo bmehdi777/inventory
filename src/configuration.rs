@@ -1,17 +1,17 @@
-#[derive(serde::Deserialize, Debug)]
+#[derive(serde::Deserialize, Debug, Clone)]
 pub struct Settings {
     pub application: ApplicationSettings,
     pub database: DatabaseSettings,
     pub redis_uri: String,
 }
 
-#[derive(serde::Deserialize, Debug)]
+#[derive(serde::Deserialize, Debug, Clone)]
 pub struct ApplicationSettings {
     pub host: String,
     pub port: u16,
 }
 
-#[derive(serde::Deserialize, Debug)]
+#[derive(serde::Deserialize, Debug, Clone)]
 pub struct DatabaseSettings {
     pub username: String,
     pub password: String,
@@ -38,10 +38,11 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .try_into()
         .expect("Failed to parse APP_ENVIRONMENT");
 
-
     let settings = config::Config::builder()
         .add_source(config::File::from(conf_path.join("base.yaml")))
-        .add_source(config::File::from(conf_path.join(format!("{}.yaml", env.as_str()))))
+        .add_source(config::File::from(
+            conf_path.join(format!("{}.yaml", env.as_str())),
+        ))
         // Example : APP_APPLICATION__PORT
         .add_source(
             config::Environment::with_prefix("APP")

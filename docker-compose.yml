@@ -1,0 +1,31 @@
+services:
+  api:
+    build: .
+    container_name: "inventory_api"
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      - mongo
+      - redis
+    links:
+      - mongo
+      - redis
+  mongo:
+    image: "mongo"
+    container_name: "inventory_db"
+    ports:
+      - "27017:27017"
+    volumes:
+      - "./scripts/init_mongo.js:/docker-entrypoint-initdb.d/init_mongo.js:ro"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: inventory
+      MONGO_USER: mongo
+      MONGO_PASSWORD: password
+
+  redis:
+    image: "redis:7"
+    container_name: "redis_inventory"
+    ports:
+      - "6379:6379"
