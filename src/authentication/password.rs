@@ -40,7 +40,7 @@ pub async fn validate_credentials(
     }
 }
 
-fn verify_password_hash(
+pub fn verify_password_hash(
     current_password: String,
     hashed_password: String,
 ) -> Result<(), AuthenticationError> {

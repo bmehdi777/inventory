@@ -25,6 +25,7 @@ pub async fn register(
             User {
                 uuid: user_id.clone(),
                 username: payload.username,
+                email: payload.email,
                 password_hash: create_hash_password(payload.password).await?,
             },
             None,

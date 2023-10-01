@@ -54,7 +54,9 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         )
         .route(
             "/users",
-            get(user::get::get_users).put(user::put::modify_user),
+            get(user::get::get_users)
+                .put(user::put::modify_username)
+                .put(login::put::modify_password),
         )
         .layer(middleware::from_fn_with_state(
             app_state.clone(),

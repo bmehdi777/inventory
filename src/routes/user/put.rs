@@ -3,17 +3,18 @@ use mongodb::bson::doc;
 
 use crate::{
     routes::{
-        user::{User, UserModify},
+        user::{User, UsernameModify},
         USER_TABLENAME,
     },
     startup::AppStateRC,
     utils::AppError,
 };
 
+
 #[tracing::instrument]
-pub async fn modify_user(
+pub async fn modify_username(
     State(app_state): State<AppStateRC>,
-    Json(payload): Json<UserModify>,
+    Json(payload): Json<UsernameModify>,
 ) -> Result<StatusCode, AppError> {
     let filter = doc! {"uuid" : payload.uuid};
     let updated = doc! {"$set" : {"username" : payload.new_username}};
@@ -26,3 +27,4 @@ pub async fn modify_user(
 
     Ok(StatusCode::OK)
 }
+
