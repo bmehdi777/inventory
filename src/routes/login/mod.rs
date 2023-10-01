@@ -4,8 +4,14 @@ pub mod post;
 pub mod put;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct UserPayload {
+pub struct RegisterPayload {
     pub username: String,
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct LoginPayload {
     pub email: String,
     pub password: String,
 }

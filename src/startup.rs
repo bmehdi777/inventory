@@ -2,7 +2,7 @@ use crate::{
     configuration::Settings, health_check::health_check, middleware::authorize, product,
     routes::login, routes::search, routes::user, session::SessionStore,
 };
-use axum::{middleware, routing::get, routing::post, Router};
+use axum::{middleware, routing::get, routing::post, routing::put, Router};
 use mongodb::{options::ClientOptions, Client, Database};
 use std::sync::Arc;
 
@@ -52,12 +52,9 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
             "/search/barcode",
             post(search::post::search_product_by_barcode),
         )
-        .route(
-            "/users",
-            get(user::get::get_users)
-                .put(user::put::modify_username)
-                .put(login::put::modify_password),
-        )
+        .route("/users", get(user::get::get_users))
+        .route("/user/edit/username", put(user::put::modify_username))
+        .route("/user/edit/password", put(login::put::modify_password))
         .layer(middleware::from_fn_with_state(
             app_state.clone(),
             authorize::block_without_valid_cookie,

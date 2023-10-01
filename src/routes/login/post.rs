@@ -9,12 +9,13 @@ use crate::{
     utils::AppError,
 };
 
-use super::UserPayload;
+use super::{RegisterPayload, LoginPayload};
+
 
 #[tracing::instrument]
 pub async fn register(
     State(app_state): State<AppStateRC>,
-    Json(payload): Json<UserPayload>,
+    Json(payload): Json<RegisterPayload>,
 ) -> Result<(CookieJar, StatusCode), AppError> {
     let user_id = Uuid::new_v4().to_string();
     tracing::Span::current().record("user_id", &tracing::field::display(&user_id));
@@ -44,10 +45,10 @@ pub async fn register(
 #[tracing::instrument]
 pub async fn login(
     State(app_state): State<AppStateRC>,
-    Json(payload): Json<UserPayload>,
+    Json(payload): Json<LoginPayload>,
 ) -> Result<(CookieJar, StatusCode), AppError> {
     let creds: Credentials = Credentials {
-        username: payload.username,
+        email: payload.email,
         password: payload.password,
     };
     tracing::info!("Validating credentials");

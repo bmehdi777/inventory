@@ -18,7 +18,7 @@ pub enum AuthenticationError {
 }
 
 pub struct Credentials {
-    pub username: String,
+    pub email: String,
     pub password: String,
 }
 
@@ -28,7 +28,7 @@ pub async fn validate_credentials(
 ) -> Result<uuid::Uuid, AuthenticationError> {
     match db_client
         .collection::<User>("users")
-        .find_one(bson::doc! {"username": credentials.username }, None)
+        .find_one(bson::doc! {"email": credentials.email }, None)
         .await
         .unwrap_or(None)
     {
