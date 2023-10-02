@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod post;
 pub mod put;
+pub mod get;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RegisterPayload {

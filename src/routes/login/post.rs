@@ -9,8 +9,7 @@ use crate::{
     utils::AppError,
 };
 
-use super::{RegisterPayload, LoginPayload};
-
+use super::{LoginPayload, RegisterPayload};
 
 #[tracing::instrument]
 pub async fn register(
@@ -28,6 +27,7 @@ pub async fn register(
                 username: payload.username,
                 email: payload.email,
                 password_hash: create_hash_password(payload.password).await?,
+                picture: None,
             },
             None,
         )
@@ -35,6 +35,7 @@ pub async fn register(
         .or_else(|_| Err(AppError::DuplicatedRessource))?;
     tracing::info!("Successfully inserted user.");
 
+    // TODO: create the jwt and send it as a header or the body (idk)
     app_state
         .session_store
         .insert_user_id(user_id.clone())
@@ -54,7 +55,8 @@ pub async fn login(
     tracing::info!("Validating credentials");
     let user_id = validate_credentials(creds, &app_state.database).await?;
 
-    tracing::info!("Inserting user_id");
+    tracing::info!("Inserting user_id: {}", &user_id.to_string());
+    // TODO: create the jwt and send it as a header or the body (idk)
     app_state
         .session_store
         .insert_user_id(user_id.to_string())
@@ -62,6 +64,7 @@ pub async fn login(
     Ok((create_session_cookie(user_id.to_string()), StatusCode::OK))
 }
 
+// TODO: refactor this function to create JWT instead of cookies
 fn create_session_cookie(uid: String) -> CookieJar {
     CookieJar::new().add(
         Cookie::build("uid", format!("{}", uid))
@@ -70,3 +73,4 @@ fn create_session_cookie(uid: String) -> CookieJar {
             .finish(),
     )
 }
+

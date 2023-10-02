@@ -1,4 +1,5 @@
 use axum::{extract::State, http::StatusCode, Json};
+use axum_extra::extract::CookieJar;
 use mongodb::bson::doc;
 
 use crate::{
@@ -10,13 +11,18 @@ use crate::{
     utils::AppError,
 };
 
-
 #[tracing::instrument]
 pub async fn modify_username(
     State(app_state): State<AppStateRC>,
+    jar: CookieJar,
     Json(payload): Json<UsernameModify>,
 ) -> Result<StatusCode, AppError> {
-    let filter = doc! {"uuid" : payload.uuid};
+    let uid = if let Some(cookie) = jar.get("uid") {
+        cookie.value()
+    } else {
+        unreachable!();
+    };
+    let filter = doc! {"uuid" : uid};
     let updated = doc! {"$set" : {"username" : payload.new_username}};
 
     app_state
@@ -27,4 +33,3 @@ pub async fn modify_username(
 
     Ok(StatusCode::OK)
 }
-

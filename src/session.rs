@@ -41,7 +41,7 @@ impl SessionStore {
         Ok(self
             .get_connection()
             .await?
-            .hdel(Self::USER_ID_KEY, uid)
+            .srem(Self::USER_ID_KEY, uid)
             .await?)
     }
 }

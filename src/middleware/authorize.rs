@@ -1,5 +1,5 @@
 use crate::{authentication::password::AuthenticationError, startup::AppStateRC, utils::AppError};
-use axum::{extract::State, http::Request, middleware::Next, response::Response};
+use axum::{extract::State, http::Request, http::HeaderMap, middleware::Next, response::Response};
 use axum_extra::extract::CookieJar;
 
 pub async fn block_without_valid_cookie<B>(
@@ -17,7 +17,9 @@ pub async fn block_without_valid_cookie<B>(
         }
     };
 
-    tracing::debug!(
+    tracing::info!("cookie_uid : {}",&cookie_uid);
+
+    tracing::info!(
         "has user id {:?}",
         app_state
             .session_store
@@ -33,5 +35,22 @@ pub async fn block_without_valid_cookie<B>(
             AuthenticationError::InvalidCookie,
         ));
     }
+    Ok(next.run(request).await)
+}
+
+pub async fn block_without_valid_jwt<B>(
+    header: HeaderMap,
+    State(app_state): State<AppStateRC>,
+    request: Request<B>,
+    next: Next<B>
+    ) -> Result<Response, AppError> {
+    let jwt = match header.get("Authorization") {
+        Some(j) => j,
+        None => return Err(AppError::AuthenticationError(AuthenticationError::NoJWT))
+    };
+    // TODO: verify jwt with https://docs.rs/jwt/0.16.0/jwt/
+
+
+
     Ok(next.run(request).await)
 }

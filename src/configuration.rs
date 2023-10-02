@@ -3,6 +3,7 @@ pub struct Settings {
     pub application: ApplicationSettings,
     pub database: DatabaseSettings,
     pub redis_uri: String,
+    pub jwt_key: String,
 }
 
 #[derive(serde::Deserialize, Debug, Clone)]

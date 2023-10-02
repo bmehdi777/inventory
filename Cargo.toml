@@ -13,9 +13,11 @@ axum-extra = { version = "0.7.7", features = ["cookie"] }
 base64 = "0.21.3"
 config = { version = "0.13.3", features = ["yaml"] }
 futures = "0.3.28"
+hmac = "0.12.1"
 http = "0.2.9"
 hyper = { version = "0.14.27", features = ["full"] }
 image = "0.24.7"
+jwt = "0.16.0"
 mongodb = { version = "2.6.0", features = ["bson-serde_with"] }
 rand = "0.8.5"
 redis = { version = "0.23.1", features = ["aio", "tokio-comp"] }
@@ -23,6 +25,7 @@ reqwest = { version = "0.11.20", features = ["serde_json", "json", "blocking"] }
 rxing = "0.4.9"
 serde = { version = "1.0.171", features = ["derive"] }
 serde_json = "1.0.102"
+sha2 = "0.10.8"
 thiserror = "1.0.44"
 tokio = { version = "1.29.1", features = ["full"] }
 tracing = "0.1.37"

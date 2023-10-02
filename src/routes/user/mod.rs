@@ -10,11 +10,11 @@ pub struct User {
     pub username: String,
     pub email: String,
     pub password_hash: String,
+    pub picture: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct UsernameModify {
-    pub uuid: String,
     pub new_username: String,
 }
 
