@@ -1,15 +1,15 @@
 services:
-  api:
-    build: .
-    container_name: "inventory_api"
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mongo
-      - redis
-    links:
-      - mongo
-      - redis
+  #api:
+  #  build: .
+  #  container_name: "inventory_api"
+  #  ports:
+  #    - "8000:8000"
+  #  depends_on:
+  #    - mongo
+  #    - redis
+  #  links:
+  #    - mongo
+  #    - redis
   mongo:
     image: "mongo"
     container_name: "inventory_db"
