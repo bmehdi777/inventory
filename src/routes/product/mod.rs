@@ -39,3 +39,8 @@ pub struct OpenFoodFactProductDetail {
     pub image: String,
 }
 
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct ProductQuery {
+    pub name: String,
+}

@@ -25,6 +25,8 @@ pub enum AppError {
 
     #[error("Can't create a duplicated ressource.")]
     DuplicatedRessource,
+    #[error("No ressource")]
+    NoRessource,
 
     #[error("Unable to parse base64.")]
     Base64Error(#[from] base64::DecodeError),
@@ -34,7 +36,7 @@ pub enum AppError {
 
     #[error("Image error.")]
     ImageError(#[from] image::ImageError),
-    
+
     #[error("Codebar error")]
     CodebarError(#[from] rxing::Exceptions),
 
@@ -52,19 +54,13 @@ impl IntoResponse for AppError {
                     "An error occured. Please try later.",
                 )
             }
-            AppError::JWTInvalid(e)=> {
+            AppError::JWTInvalid(e) => {
                 tracing::error!("{}", e);
-                (
-                    StatusCode::UNAUTHORIZED,
-                    "JWT invalid."
-                )
-            },
+                (StatusCode::UNAUTHORIZED, "JWT invalid.")
+            }
             AppError::JWTExpired => {
                 tracing::error!("JWT expired");
-                (
-                    StatusCode::UNAUTHORIZED,
-                    "JWT expired."
-                )
+                (StatusCode::UNAUTHORIZED, "JWT expired.")
             }
             AppError::ImageError(e) => {
                 tracing::error!("Image error : {}", e);
@@ -73,12 +69,9 @@ impl IntoResponse for AppError {
                     "An error occured with the image sent. Please try later.",
                 )
             }
-            AppError::CodebarError (e) => {
+            AppError::CodebarError(e) => {
                 tracing::error!("Codebar error : {}", e);
-                (
-                    StatusCode::NO_CONTENT,
-                    "No codebar found.",
-                )
+                (StatusCode::NO_CONTENT, "No codebar found.")
             }
             AppError::DatabaseError(e) => {
                 tracing::error!("Database error : {}", e);
@@ -89,10 +82,7 @@ impl IntoResponse for AppError {
             }
             AppError::ReqwestError(e) => {
                 tracing::error!("Reqwest error : {}", e);
-                (
-                    StatusCode::NO_CONTENT,
-                    "No product found.",
-                )
+                (StatusCode::NO_CONTENT, "No product found.")
             }
             AppError::Base64Error(e) => {
                 tracing::error!("Base64 error : {}.", e);
@@ -104,6 +94,10 @@ impl IntoResponse for AppError {
             AppError::DuplicatedRessource => {
                 tracing::error!("Duplicated ressource");
                 (StatusCode::CONFLICT, "Can't create a duplicated ressource.")
+            }
+            AppError::NoRessource => {
+                tracing::error!("No ressource found");
+                (StatusCode::NOT_FOUND, "No ressource found.")
             }
             AppError::LockError => {
                 tracing::error!("Unable to lock ressource");

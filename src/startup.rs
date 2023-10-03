@@ -48,7 +48,8 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
 
     let auth_route = Router::new()
         .route("/products", get(product::get::get_products))
-        .route("/products/register", post(product::post::register_product))
+        .route("/products", post(product::post::register_product))
+        .route("/products/detail", post(product::get::get_product))
         .route("/search/image", post(search::post::search_product_by_image))
         .route(
             "/search/barcode",
