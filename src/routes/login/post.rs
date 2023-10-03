@@ -83,7 +83,7 @@ pub async fn login(
     tracing::info!("Validating credentials");
     let user_id = validate_credentials(creds, &app_state.database).await?;
 
-    tracing::info!("Generating user_id: {}", &user_id.to_string());
+    tracing::info!("user_id: {}", &user_id.to_string());
 
     match create_jwt(user_id.to_string(), &app_state.jwt_secret) {
         Ok(j) => return Ok(Json(j)),

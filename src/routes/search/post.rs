@@ -4,7 +4,7 @@ use crate::{
         search::{SearchBarcodeRequest, SearchImageRequest},
         API_BARCODE,
     },
-    utils::AppError,
+    utils::AppError, product::Product,
 };
 use axum::Json;
 use base64::{engine::general_purpose, Engine as _};
@@ -38,9 +38,9 @@ pub async fn search_product_by_image(
 #[tracing::instrument]
 pub async fn search_product_by_barcode(
     Json(payload): Json<SearchBarcodeRequest>,
-) -> Result<Json<OpenFoodFactProduct>, AppError> {
+) -> Result<Json<Product>, AppError> {
     let product_info = search_barcode(payload.barcode).await?;
-    Ok(Json(product_info))
+    Ok(Json(product_info.into()))
 }
 
 async fn search_barcode(barcode: String) -> Result<OpenFoodFactProduct, AppError> {
