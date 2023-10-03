@@ -13,8 +13,6 @@ pub enum AuthenticationError {
     InvalidCookie,
     #[error("No JWT.")]
     NoJWT,
-    #[error("Invalid JWT.")]
-    InvalidJWT,
     #[error("Hashed password doesn't match.")]
     PasswordHashing(#[from] argon2::password_hash::Error),
     #[error("Thread error.")]

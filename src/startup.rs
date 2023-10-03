@@ -1,6 +1,6 @@
 use crate::{
     configuration::Settings, health_check::health_check, middleware::authorize, product,
-    routes::login, routes::search, routes::user, session::SessionStore,
+    routes::login, routes::search, routes::user, 
 };
 use axum::{middleware, routing::get, routing::post, routing::put, Router};
 use mongodb::{options::ClientOptions, Client, Database};
@@ -11,16 +11,14 @@ use std::sync::Arc;
 #[derive(Debug)]
 pub struct AppState {
     pub database: Database,
-    pub session_store: SessionStore,
-    pub jwt_key: Hmac<Sha256>,
+    pub jwt_secret: Hmac<Sha256>,
 }
 impl AppState {
     #[tracing::instrument]
     pub async fn new(configuration: &Settings) -> anyhow::Result<Self> {
         Ok(AppState {
             database: Self::connect_db(&configuration).await?,
-            session_store: SessionStore::new(configuration.redis_uri.clone()).await?,
-            jwt_key: Hmac::new_from_slice(configuration.jwt_key.clone().as_bytes())?,
+            jwt_secret: Hmac::new_from_slice(configuration.application.jwt_secret.clone().as_bytes())?,
         })
     }
     #[tracing::instrument]
@@ -60,10 +58,9 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         .route("/user/personal_data", get(user::get::get_personal_info))
         .route("/user/edit/username", put(user::put::modify_username))
         .route("/user/edit/password", put(login::put::modify_password))
-        .route("/logout", get(login::get::disconnect))
         .layer(middleware::from_fn_with_state(
             app_state.clone(),
-            authorize::block_without_valid_cookie,
+            authorize::block_without_valid_jwt,
         ))
         .with_state(app_state.clone());
 

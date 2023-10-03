@@ -24,8 +24,8 @@ services:
       MONGO_USER: mongo
       MONGO_PASSWORD: password
 
-  redis:
-    image: "redis:7"
-    container_name: "redis_inventory"
-    ports:
-      - "6379:6379"
+    #redis:
+    #  image: "redis:7"
+    #  container_name: "redis_inventory"
+    #  ports:
+    #    - "6379:6379"

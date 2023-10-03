@@ -1,5 +1,6 @@
-use axum::{extract::State, http::StatusCode, Json};
-use axum_extra::extract::CookieJar;
+use std::collections::BTreeMap;
+
+use axum::{extract::State, http::StatusCode, Json, Extension};
 use mongodb::bson::doc;
 
 use crate::{
@@ -14,13 +15,13 @@ use crate::{
 #[tracing::instrument]
 pub async fn modify_username(
     State(app_state): State<AppStateRC>,
-    jar: CookieJar,
+    Extension(jwt_tok): Extension<BTreeMap<String,String>>,
     Json(payload): Json<UsernameModify>,
 ) -> Result<StatusCode, AppError> {
-    let uid = if let Some(cookie) = jar.get("uid") {
-        cookie.value()
+    let uid = if let Some(uid) = jwt_tok.get("uid") {
+        uid
     } else {
-        unreachable!();
+        panic!();
     };
     let filter = doc! {"uuid" : uid};
     let updated = doc! {"$set" : {"username" : payload.new_username}};

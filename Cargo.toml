@@ -11,6 +11,7 @@ argon2 = { version = "0.5.1", features = ["std"] }
 axum = { version = "0.6.18", features = ["headers", "tracing", "macros"] }
 axum-extra = { version = "0.7.7", features = ["cookie"] }
 base64 = "0.21.3"
+chrono = "0.4.31"
 config = { version = "0.13.3", features = ["yaml"] }
 futures = "0.3.28"
 hmac = "0.12.1"

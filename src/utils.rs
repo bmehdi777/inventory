@@ -12,14 +12,16 @@ pub enum AppError {
     #[error("Invalid credentials.")]
     AuthenticationError(#[from] AuthenticationError),
 
+    #[error("Invalid JWT")]
+    JWTInvalid(#[from] jwt::Error),
+    #[error("JWT Expired")]
+    JWTExpired,
+
     #[error("Database error : {0}")]
     DatabaseError(#[from] mongodb::error::Error),
 
     #[error("Unexpected error : {0}")]
     UnexpectedError(#[from] anyhow::Error),
-
-    #[error("Redis error : {0}")]
-    RedisError(#[from] redis::RedisError),
 
     #[error("Can't create a duplicated ressource.")]
     DuplicatedRessource,
@@ -50,6 +52,20 @@ impl IntoResponse for AppError {
                     "An error occured. Please try later.",
                 )
             }
+            AppError::JWTInvalid(e)=> {
+                tracing::error!("{}", e);
+                (
+                    StatusCode::UNAUTHORIZED,
+                    "JWT invalid."
+                )
+            },
+            AppError::JWTExpired => {
+                tracing::error!("JWT expired");
+                (
+                    StatusCode::UNAUTHORIZED,
+                    "JWT expired."
+                )
+            }
             AppError::ImageError(e) => {
                 tracing::error!("Image error : {}", e);
                 (
@@ -75,14 +91,7 @@ impl IntoResponse for AppError {
                 tracing::error!("Reqwest error : {}", e);
                 (
                     StatusCode::NO_CONTENT,
-                    "An error occured while contacting OpenFoodFact. Please try later.",
-                )
-            }
-            AppError::RedisError(e) => {
-                tracing::error!("Redis error: {}", e);
-                (
-                    StatusCode::INTERNAL_SERVER_ERROR,
-                    "An error occured. Please try later.",
+                    "No product found.",
                 )
             }
             AppError::Base64Error(e) => {
