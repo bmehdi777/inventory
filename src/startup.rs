@@ -1,11 +1,11 @@
 use crate::{
     configuration::Settings, health_check::health_check, middleware::authorize, product,
-    routes::login, routes::search, routes::user, 
+    routes::category, routes::login, routes::search, routes::user,
 };
 use axum::{middleware, routing::get, routing::post, routing::put, Router};
+use hmac::{Hmac, Mac};
 use mongodb::{options::ClientOptions, Client, Database};
 use sha2::Sha256;
-use hmac::{Hmac, Mac};
 use std::sync::Arc;
 
 #[derive(Debug)]
@@ -18,7 +18,9 @@ impl AppState {
     pub async fn new(configuration: &Settings) -> anyhow::Result<Self> {
         Ok(AppState {
             database: Self::connect_db(&configuration).await?,
-            jwt_secret: Hmac::new_from_slice(configuration.application.jwt_secret.clone().as_bytes())?,
+            jwt_secret: Hmac::new_from_slice(
+                configuration.application.jwt_secret.clone().as_bytes(),
+            )?,
         })
     }
     #[tracing::instrument]
@@ -55,6 +57,8 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
             "/search/barcode",
             post(search::post::search_product_by_barcode),
         )
+        .route("/category", get(category::get::get_categories))
+        .route("/category", post(category::post::create))
         .route("/users", get(user::get::get_users))
         .route("/user/personal_data", get(user::get::get_personal_info))
         .route("/user/edit/username", put(user::put::modify_username))
