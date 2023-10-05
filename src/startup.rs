@@ -49,16 +49,28 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
     let app_state = AppStateRC::new(AppState::new(&configuration).await?);
 
     let auth_route = Router::new()
-        .route("/products", get(product::get::get_products))
-        .route("/products", post(product::post::register_product))
-        .route("/products/detail", post(product::get::get_product))
+        .route(
+            "/products",
+            get(product::get::get_products)
+                .post(product::post::register_product)
+                .delete(product::delete::delete),
+        )
+        .route(
+            "/products/detail",
+            post(product::get::get_product).put(product::put::update),
+        )
         .route("/search/image", post(search::post::search_product_by_image))
         .route(
             "/search/barcode",
             post(search::post::search_product_by_barcode),
         )
-        .route("/category", get(category::get::get_categories))
-        .route("/category", post(category::post::create))
+        .route(
+            "/category",
+            get(category::get::get_categories)
+                .post(category::post::create)
+                .delete(category::delete::delete)
+                .put(category::put::update),
+        )
         .route("/users", get(user::get::get_users))
         .route("/user/personal_data", get(user::get::get_personal_info))
         .route("/user/edit/username", put(user::put::modify_username))

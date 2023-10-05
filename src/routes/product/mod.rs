@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+pub mod delete;
 pub mod get;
 pub mod post;
 pub mod put;
@@ -39,8 +40,14 @@ pub struct OpenFoodFactProductDetail {
     pub image: String,
 }
 
-
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ProductQuery {
     pub name: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct ProductUpdate {
+    pub current_name: String,
+    pub new_quantity: f64,
+    pub new_categories: Vec<String>,
 }
