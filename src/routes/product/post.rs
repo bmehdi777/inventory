@@ -14,6 +14,7 @@ pub async fn register_product(
         .database
         .collection::<Product>(PRODUCT_TABLENAME)
         .insert_one(payload, None)
-        .await?;
+        .await
+        .or_else(|_| Err(AppError::DuplicatedRessource))?;
     Ok(StatusCode::OK)
 }

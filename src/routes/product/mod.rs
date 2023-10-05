@@ -10,6 +10,7 @@ pub struct Product {
     pub name: String,
     pub image: Option<String>,
     pub quantity: Option<u64>,
+    pub category: Option<Vec<String>>,
     pub barcode: Option<String>,
 }
 
@@ -19,6 +20,7 @@ impl From<OpenFoodFactProduct> for Product {
             name: product.product.name,
             image: Some(product.product.image),
             quantity: None,
+            category: None,
             barcode: Some(product.id),
         }
     }

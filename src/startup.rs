@@ -52,9 +52,9 @@ pub async fn run(configuration: Settings) -> anyhow::Result<()> {
         .route(
             "/products",
             get(product::get::get_products)
-                .post(product::post::register_product)
                 .delete(product::delete::delete),
         )
+        .route("/products", post(product::post::register_product))
         .route(
             "/products/detail",
             post(product::get::get_product).put(product::put::update),
